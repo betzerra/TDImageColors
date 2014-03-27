@@ -25,22 +25,36 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+}
 
-  dispatch_group_t group = dispatch_group_create();
-  
-  dispatch_group_enter(group);
-  NSString *imageName = [NSString stringWithFormat:@"test_image%d.jpg", arc4random_uniform(6)];
-  UIImage *image = [UIImage imageNamed:imageName];
-  self.imageView.image = image;
-  TDImageColors *imageColors = [[TDImageColors alloc] initWithImage:image count:5];
-  dispatch_group_leave(group);
+- (IBAction)chooseImageButtonPressed:(id)sender {
+    UIImagePickerController * picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.allowsEditing = NO;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentViewController:picker animated:YES completion:nil];
+}
 
-  dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-    for (UIColor *color in imageColors.colors) {
-      NSUInteger idx = [imageColors.colors indexOfObject:color];
-      [_colorViews[idx] setBackgroundColor:color];
-    }
-  });
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        dispatch_group_t group = dispatch_group_create();
+        
+        dispatch_group_enter(group);
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        self.imageView.image = image;
+        TDImageColors *imageColors = [[TDImageColors alloc] initWithImage:image count:5];
+        dispatch_group_leave(group);
+        
+        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+            for (UIColor *color in imageColors.colors) {
+                NSUInteger idx = [imageColors.colors indexOfObject:color];
+                [_colorViews[idx] setBackgroundColor:color];
+            }
+        });
+    }];
 }
 
 @end

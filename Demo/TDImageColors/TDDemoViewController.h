@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TDDemoViewController : UIViewController
+@interface TDDemoViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *colorViews;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
+- (IBAction)chooseImageButtonPressed:(id)sender;
 @end

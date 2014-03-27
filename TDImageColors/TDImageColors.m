@@ -27,6 +27,27 @@
 
 @implementation TDImageColors
 
+#pragma mark - Private
+
+- (NSCountedSet *)allColorsFromUIImage:(UIImage *)anImage{
+    
+    size_t width = CGImageGetWidth(anImage.CGImage);
+    size_t height = CGImageGetHeight(anImage.CGImage);
+    
+    NSCountedSet *retVal = [[NSCountedSet alloc] initWithCapacity:width * height];
+    
+    for (NSUInteger x = 0; x < width; x++) {
+        for (NSUInteger y = 0; y < height; y++) {
+            UIColor *color = [UIImage colorFromImage:anImage atX:x andY:y];
+            [retVal addObject:color];
+        }
+    }
+    
+    return retVal;
+}
+
+#pragma mark - Public
+
 - (id)initWithImage:(UIImage *)image count:(NSUInteger)count {
   if ((self = [super init])) {
     self.count = count;
@@ -40,12 +61,9 @@
 
 - (void)detectColorsFromImage:(UIImage *)image {
     if (image){
-        
-        NSCountedSet *imageColors = nil;
-        
         //  Get colors
         NSMutableArray *finalColors = [NSMutableArray array];
-        [finalColors addObjectsFromArray:[self findColorsOfImage:image imageColors:&imageColors]];
+        [finalColors addObjectsFromArray:[self findColorsOfImage:image]];
         
         //  If colors are not enough add white color?
         while (finalColors.count < self.count){
@@ -55,51 +73,44 @@
     }
 }
 
-- (NSArray *)findColorsOfImage:(UIImage *)image imageColors:(NSCountedSet **)colors {
-  size_t width = CGImageGetWidth(image.CGImage);
-  size_t height = CGImageGetHeight(image.CGImage);
+- (NSArray *)findColorsOfImage:(UIImage *)image{
+    NSCountedSet *imageColors = [self allColorsFromUIImage:image];
   
-  NSCountedSet *imageColors = [[NSCountedSet alloc] initWithCapacity:width * height];
-  
-  for (NSUInteger x = 0; x < width; x++) {
-    for (NSUInteger y = 0; y < height; y++) {
-      UIColor *color = [UIImage colorFromImage:image atX:x andY:y];
-      [imageColors addObject:color];
+    NSEnumerator *enumerator = [imageColors objectEnumerator];
+    UIColor *curColor = nil;
+    NSMutableArray *sortedColors = [NSMutableArray arrayWithCapacity:imageColors.count];
+    NSMutableArray *resultColors = [NSMutableArray array];
+
+    while ((curColor = [enumerator nextObject]) != nil) {
+        curColor = [curColor colorWithMinimumSaturation:0.15f];
+        NSUInteger colorCount = [imageColors countForObject:curColor];
+        [sortedColors addObject:[[TDCountedColor alloc] initWithColor:curColor count:colorCount]];
     }
-  }
-  
-  *colors = imageColors;
-  
-  NSEnumerator *enumerator = [imageColors objectEnumerator];
-  UIColor *curColor = nil;
-  NSMutableArray *sortedColors = [NSMutableArray arrayWithCapacity:imageColors.count];
-  NSMutableArray *resultColors = [NSMutableArray array];
-  
-  while ((curColor = [enumerator nextObject]) != nil) {
-    curColor = [curColor colorWithMinimumSaturation:0.15f];
-    NSUInteger colorCount = [imageColors countForObject:curColor];
-    [sortedColors addObject:[[TDCountedColor alloc] initWithColor:curColor count:colorCount]];
-  }
-  
-  [sortedColors sortUsingSelector:@selector(compare:)];
-  
-  for (TDCountedColor *countedColor in sortedColors) {
-    curColor = countedColor.color;
-    BOOL continueFlag = NO;
-    for (UIColor *c in resultColors) {
-      if (![curColor isDistinct:c]) {
-        continueFlag = YES;
-        break;
-      }
+
+    [sortedColors sortUsingSelector:@selector(compare:)];
+
+    for (TDCountedColor *countedColor in sortedColors) {
+        curColor = countedColor.color;
+        BOOL continueFlag = NO;
+        
+        for (UIColor *c in resultColors) {
+            if (![curColor isDistinct:c]) {
+                continueFlag = YES;
+                break;
+            }
+        }
+        
+        if (continueFlag)
+            continue;
+        if (resultColors.count < self.count){
+            [resultColors addObject:curColor];
+        }else{
+            break;
+        }
     }
-    if (continueFlag)
-      continue;
-    if (resultColors.count < self.count)
-      [resultColors addObject:curColor];
-    else
-      break;
-  }
-  return [NSArray arrayWithArray:resultColors];
+    
+    NSArray *retVal = [NSArray arrayWithArray:resultColors];
+    return retVal;
 }
 
 @end
@@ -122,6 +133,24 @@
 			return NSOrderedSame;
 	}
 	return NSOrderedAscending;
+}
+
+- (NSString *)description{
+    float red = 0;
+    float green = 0;
+    float blue = 0;
+    float alpha = 0;
+    
+    [self.color getRed:&red green:&green blue:&blue alpha:&alpha];
+    
+    NSString *retVal = [NSString stringWithFormat:@"%@ R:%.0f G:%.0f B:%.0f A:%.0f (count %d)",
+                                                                                [super description],
+                                                                                red * 255,
+                                                                                green * 255,
+                                                                                blue * 255,
+                                                                                alpha * 255,
+                                                                                self.count];
+    return retVal;
 }
 
 

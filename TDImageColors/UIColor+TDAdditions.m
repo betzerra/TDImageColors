@@ -84,16 +84,16 @@
 }
 
 - (UIColor *)colorWithMinimumSaturation:(CGFloat)saturation {
-  if (!self)
-    return nil;
+    UIColor *retVal = self;
+    
+    CGFloat h, s, b, a;
+    [self getHue:&h saturation:&s brightness:&b alpha:&a];
   
-  CGFloat h, s, b, a;
-  [self getHue:&h saturation:&s brightness:&b alpha:&a];
+    if (s < saturation){
+        retVal = [UIColor colorWithHue:h saturation:saturation brightness:b alpha:a];
+    }
   
-  if (s < saturation)
-    return [UIColor colorWithHue:h saturation:saturation brightness:b alpha:a];
-  
-  return self;
+    return self;
 }
 
 @end

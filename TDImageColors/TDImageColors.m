@@ -39,14 +39,20 @@
 }
 
 - (void)detectColorsFromImage:(UIImage *)image {
-  if (!image)
-    return;
-  NSCountedSet *imageColors;
-  NSMutableArray *finalColors = [NSMutableArray array];
-  [finalColors addObjectsFromArray:[self findColorsOfImage:image imageColors:&imageColors]];
-  while (finalColors.count < self.count)
-    [finalColors addObject:[UIColor whiteColor]];
-  self.colors = [NSArray arrayWithArray:finalColors];
+    if (image){
+        
+        NSCountedSet *imageColors = nil;
+        
+        //  Get colors
+        NSMutableArray *finalColors = [NSMutableArray array];
+        [finalColors addObjectsFromArray:[self findColorsOfImage:image imageColors:&imageColors]];
+        
+        //  If colors are not enough add white color?
+        while (finalColors.count < self.count){
+            [finalColors addObject:[UIColor whiteColor]];
+        }
+        self.colors = [NSArray arrayWithArray:finalColors];
+    }
 }
 
 - (NSArray *)findColorsOfImage:(UIImage *)image imageColors:(NSCountedSet **)colors {
@@ -55,15 +61,12 @@
   
   NSCountedSet *imageColors = [[NSCountedSet alloc] initWithCapacity:width * height];
   
-  NSDate *start = [NSDate date];
   for (NSUInteger x = 0; x < width; x++) {
     for (NSUInteger y = 0; y < height; y++) {
       UIColor *color = [UIImage colorFromImage:image atX:x andY:y];
       [imageColors addObject:color];
     }
   }
-  NSDate *finish = [NSDate date];
-  NSTimeInterval execution = [finish timeIntervalSinceDate:start];
   
   *colors = imageColors;
   

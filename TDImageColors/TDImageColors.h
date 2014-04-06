@@ -12,7 +12,11 @@
 
 #define kColorThresholdMinimumPercentage 0.01
 
-@interface TDImageColors : NSObject
+@interface TDImageColors : NSObject{
+    NSUInteger _count;
+    NSArray *_colors;
+    UIImage *_scaledImage;
+}
 
 @property (strong, nonatomic, readonly) NSArray *colors;
 

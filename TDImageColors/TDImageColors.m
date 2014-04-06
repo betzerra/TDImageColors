@@ -20,9 +20,7 @@
 @end
 
 @interface TDImageColors ()
-@property (nonatomic) NSUInteger count;
-@property (strong, nonatomic, readwrite) NSArray *colors;
-@property (strong, nonatomic) UIImage *scaledImage;
+
 @end
 
 @implementation TDImageColors
@@ -50,10 +48,10 @@
 
 - (id)initWithImage:(UIImage *)image count:(NSUInteger)count {
   if ((self = [super init])) {
-    self.count = count;
-    self.colors = @[];
-    self.scaledImage = [UIImage imageWithImage:image scaledToSize:CGSizeMake(TDIMAGECOLORS_SCALED_SIZE,
-                                                                             TDIMAGECOLORS_SCALED_SIZE)];
+    _count = count;
+    _colors = @[];
+    _scaledImage = [UIImage imageWithImage:image scaledToSize:CGSizeMake(TDIMAGECOLORS_SCALED_SIZE,
+                                                                         TDIMAGECOLORS_SCALED_SIZE)];
     [self detectColorsFromImage:_scaledImage];
   }
   return self;
@@ -66,10 +64,11 @@
         [finalColors addObjectsFromArray:[self findColorsOfImage:image]];
         
         //  If colors are not enough add white color?
-        while (finalColors.count < self.count){
+        while (finalColors.count < _count){
             [finalColors addObject:[UIColor whiteColor]];
         }
-        self.colors = [NSArray arrayWithArray:finalColors];
+        
+        _colors = [NSArray arrayWithArray:finalColors];
     }
 }
 
@@ -102,7 +101,7 @@
         
         if (continueFlag)
             continue;
-        if (resultColors.count < self.count){
+        if (resultColors.count < _count){
             [resultColors addObject:curColor];
         }else{
             break;

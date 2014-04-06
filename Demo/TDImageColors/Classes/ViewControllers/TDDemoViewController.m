@@ -61,13 +61,16 @@
         dispatch_group_enter(group);
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
         self.imageView.image = image;
-        TDImageColors *imageColors = [[TDImageColors alloc] initWithImage:image count:5];
+        TDImageColors *imageColors = [[TDImageColors alloc] initWithImage:image count:64 threshold:0.25f];
         dispatch_group_leave(group);
         
         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-            for (UIColor *color in imageColors.colors) {
+            NSInteger i=0;
+            while (i < 5 && i < [imageColors.colors count]){
+                UIColor *color = imageColors.colors[i];
                 NSUInteger idx = [imageColors.colors indexOfObject:color];
                 [_colorViews[idx] setBackgroundColor:color];
+                i++;
             }
             
             _colors = imageColors.colors;

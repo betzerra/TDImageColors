@@ -16,10 +16,11 @@
     NSUInteger _count;
     NSArray *_colors;
     UIImage *_scaledImage;
+    CGFloat _threshold;
 }
 
 @property (strong, nonatomic, readonly) NSArray *colors;
 
-- (id)initWithImage:(UIImage *)image count:(NSUInteger)count;
+- (id)initWithImage:(UIImage *)image count:(NSUInteger)count threshold:(CGFloat)threshold;
 
 @end

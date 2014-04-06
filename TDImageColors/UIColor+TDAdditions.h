@@ -13,8 +13,7 @@
 - (CGFloat)luminance;
 - (BOOL)isDarkColor;
 - (BOOL)isBlackOrWhite;
-- (BOOL)isDistinct:(UIColor *)color;
-- (BOOL)isContrastingColor:(UIColor *)color;
+- (BOOL)isDistinct:(UIColor *)color threshold:(CGFloat)threshold;
 - (UIColor *)colorWithMinimumSaturation:(CGFloat)saturation;
 
 @end

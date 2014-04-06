@@ -46,15 +46,16 @@
 
 #pragma mark - Public
 
-- (id)initWithImage:(UIImage *)image count:(NSUInteger)count {
-  if ((self = [super init])) {
-    _count = count;
-    _colors = @[];
-    _scaledImage = [UIImage imageWithImage:image scaledToSize:CGSizeMake(TDIMAGECOLORS_SCALED_SIZE,
-                                                                         TDIMAGECOLORS_SCALED_SIZE)];
-    [self detectColorsFromImage:_scaledImage];
-  }
-  return self;
+- (id)initWithImage:(UIImage *)image count:(NSUInteger)count threshold:(CGFloat)threshold{
+    if ((self = [super init])) {
+      _count = count;
+      _colors = @[];
+      _scaledImage = [UIImage imageWithImage:image scaledToSize:CGSizeMake(TDIMAGECOLORS_SCALED_SIZE,
+                                                                           TDIMAGECOLORS_SCALED_SIZE)];
+      _threshold = threshold;
+      [self detectColorsFromImage:_scaledImage];
+    }
+    return self;
 }
 
 - (void)detectColorsFromImage:(UIImage *)image {
@@ -62,12 +63,6 @@
         //  Get colors
         NSMutableArray *finalColors = [NSMutableArray array];
         [finalColors addObjectsFromArray:[self findColorsOfImage:image]];
-        
-        //  If colors are not enough add white color?
-        while (finalColors.count < _count){
-            [finalColors addObject:[UIColor whiteColor]];
-        }
-        
         _colors = [NSArray arrayWithArray:finalColors];
     }
 }
@@ -93,7 +88,7 @@
         BOOL continueFlag = NO;
         
         for (UIColor *c in resultColors) {
-            if (![curColor isDistinct:c]) {
+            if (![curColor isDistinct:c threshold:_threshold]) {
                 continueFlag = YES;
                 break;
             }

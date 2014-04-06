@@ -38,7 +38,7 @@
   return NO;
 }
 
-- (BOOL)isDistinct:(UIColor *)color {
+- (BOOL)isDistinct:(UIColor *)color threshold:(CGFloat)threshold{
   if (!self || !color)
     return NO;
   
@@ -47,8 +47,6 @@
   
   [self getRed:&r green:&g blue:&b alpha:&a];
   [color getRed:&rc green:&gc blue:&bc alpha:&ac];
-  
-  CGFloat threshold = 0.25f;
   
   if (fabs(r - rc) > threshold || fabs(g - gc) > threshold ||
       fabs(b - bc) > threshold || fabs(a - ac) > threshold) {

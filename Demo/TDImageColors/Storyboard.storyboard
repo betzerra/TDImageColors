@@ -32,7 +32,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6oZ-e8-TJJ">
-                                <rect key="frame" x="0.0" y="94" width="320" height="320"/>
+                                <rect key="frame" x="0.0" y="104" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="kDh-ba-9uu"/>
@@ -53,7 +53,7 @@
                                 </items>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sdX-nm-71x">
-                                <rect key="frame" x="0.0" y="429" width="320" height="50"/>
+                                <rect key="frame" x="0.0" y="439" width="320" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gHC-nK-UpH">
@@ -118,12 +118,21 @@
                                     <constraint firstAttribute="centerX" secondItem="HU4-gr-6ce" secondAttribute="centerX" id="sv3-ox-wSI"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Image to see more colors" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4WY-46-9zd">
+                                <rect key="frame" x="47" y="74" width="227" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.5411764979" green="0.55294120309999995" blue="0.55294120309999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="6oZ-e8-TJJ" secondAttribute="centerX" id="6lz-SG-h2t"/>
-                            <constraint firstAttribute="centerY" secondItem="6oZ-e8-TJJ" secondAttribute="centerY" constant="30" id="9Tg-qW-xYc"/>
+                            <constraint firstAttribute="centerY" secondItem="6oZ-e8-TJJ" secondAttribute="centerY" constant="20" id="9Tg-qW-xYc"/>
                             <constraint firstItem="sdX-nm-71x" firstAttribute="top" secondItem="6oZ-e8-TJJ" secondAttribute="bottom" constant="15" id="EQg-5M-pFh"/>
+                            <constraint firstItem="4WY-46-9zd" firstAttribute="top" secondItem="c5n-Et-GNv" secondAttribute="bottom" constant="10" id="NcB-i5-lDZ"/>
+                            <constraint firstAttribute="centerX" secondItem="4WY-46-9zd" secondAttribute="centerX" id="RFy-2C-cEe"/>
                             <constraint firstAttribute="centerX" secondItem="sdX-nm-71x" secondAttribute="centerX" id="sbb-yT-ml5"/>
                         </constraints>
                     </view>

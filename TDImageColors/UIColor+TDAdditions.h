@@ -15,5 +15,6 @@
 - (BOOL)isBlackOrWhite;
 - (BOOL)isDistinct:(UIColor *)color threshold:(CGFloat)threshold;
 - (UIColor *)colorWithMinimumSaturation:(CGFloat)saturation;
+- (NSComparisonResult)hubComparisson:(UIColor *)object;
 
 @end

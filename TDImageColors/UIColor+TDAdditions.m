@@ -94,4 +94,19 @@
     return self;
 }
 
+- (NSComparisonResult)hubComparisson:(UIColor *)object{
+    NSComparisonResult resultRetVal = NSOrderedSame;
+    
+    CGFloat selfHue = 0;
+    CGFloat objectHue = 0;
+    if ([self getHue:&selfHue saturation:0 brightness:0 alpha:0] &&
+        [object getHue:&objectHue saturation:0 brightness:0 alpha:0]){
+        
+        resultRetVal = [@(selfHue) compare:@(objectHue)];
+    }
+    
+    return resultRetVal;
+
+}
+
 @end

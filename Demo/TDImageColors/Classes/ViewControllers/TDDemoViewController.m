@@ -73,7 +73,7 @@
                 i++;
             }
             
-            _colors = imageColors.colors;
+            _colors = [imageColors.colors sortedArrayUsingSelector:@selector(hubComparisson:)];
         });
     }];
 }

@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TDDemoViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface TDDemoViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>{
+    NSArray *_colors;
+}
 
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *colorViews;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;

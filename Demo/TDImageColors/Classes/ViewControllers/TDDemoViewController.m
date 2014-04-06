@@ -7,24 +7,33 @@
 //
 
 #import "TDDemoViewController.h"
+
+//  Libs
 #import "TDImageColors.h"
 
-@interface TDDemoViewController ()
+//  ViewControllers
+#import "PaletteViewController.h"
 
+@interface TDDemoViewController ()
+- (void)handleTapGesture:(UITapGestureRecognizer *)tapGesture;
 @end
 
 @implementation TDDemoViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
-  self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-  if (self) {
-    // Custom initialization
-  }
-  return self;
+#pragma mark - Private
+
+- (void)handleTapGesture:(UITapGestureRecognizer *)tapGesture{
+    [self performSegueWithIdentifier:@"paletteSegue" sender:self];
 }
 
+#pragma mark - Public
+
 - (void)viewDidLoad {
-  [super viewDidLoad];
+    [super viewDidLoad];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+    [_imageView addGestureRecognizer:tapRecognizer];
+    _imageView.userInteractionEnabled = YES;
 }
 
 - (IBAction)chooseImageButtonPressed:(id)sender {
@@ -33,6 +42,13 @@
     picker.allowsEditing = NO;
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     [self presentViewController:picker animated:YES completion:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"paletteSegue"]){
+        PaletteViewController *vc = segue.destinationViewController;
+        vc.colors = _colors;
+    }
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -53,6 +69,8 @@
                 NSUInteger idx = [imageColors.colors indexOfObject:color];
                 [_colorViews[idx] setBackgroundColor:color];
             }
+            
+            _colors = imageColors.colors;
         });
     }];
 }

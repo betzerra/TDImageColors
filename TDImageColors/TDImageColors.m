@@ -10,6 +10,15 @@
 
 #define TDIMAGECOLORS_SCALED_SIZE 100
 
+typedef struct RGBAPixel
+{
+    Byte red;
+    Byte green;
+    Byte blue;
+    Byte alpha;
+    
+} RGBAPixel;
+
 @interface TDCountedColor : NSObject
 
 @property (assign) NSUInteger count;
@@ -29,17 +38,45 @@
 
 - (NSCountedSet *)allColorsFromUIImage:(UIImage *)anImage{
     
-    size_t width = CGImageGetWidth(anImage.CGImage);
-    size_t height = CGImageGetHeight(anImage.CGImage);
+    CGImageRef imageRep = anImage.CGImage;
+    
+    NSInteger width = CGImageGetWidth(imageRep);
+    NSInteger height = CGImageGetHeight(imageRep);
     
     NSCountedSet *retVal = [[NSCountedSet alloc] initWithCapacity:width * height];
     
+    CGImageRef imageRef = anImage.CGImage;
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    unsigned char *rawData = (unsigned char*) calloc(height * width * 4, sizeof(unsigned char));
+    NSUInteger bytesPerPixel = 4;
+    NSUInteger bytesPerRow = bytesPerPixel * width;
+    NSUInteger bitsPerComponent = 8;
+    CGContextRef context = CGBitmapContextCreate(rawData, width, height, bitsPerComponent, bytesPerRow,
+                                                 colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGColorSpaceRelease(colorSpace);
+    
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
+
+    
+    // rawDara now contains the image data in RGBA8888
+    
     for (NSUInteger x = 0; x < width; x++) {
         for (NSUInteger y = 0; y < height; y++) {
-            UIColor *color = [UIImage colorFromImage:anImage atX:x andY:y];
+            
+            int byteIndex = (bytesPerRow * y) + (x * bytesPerPixel);
+            
+            CGFloat red = (rawData[byteIndex] * 1.f) / 255.f;
+            CGFloat green = (rawData[byteIndex + 1] * 1.f) / 255.f;
+            CGFloat blue = (rawData[byteIndex + 2] * 1.f) / 255.f;
+            CGFloat alpha = (rawData[byteIndex + 3] * 1.0) / 255.f;
+            
+            UIColor *color = [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
             [retVal addObject:color];
         }
     }
+
+    CGContextRelease(context);
+    free(rawData);
     
     return retVal;
 }
@@ -48,12 +85,16 @@
 
 - (id)initWithImage:(UIImage *)image count:(NSUInteger)count threshold:(CGFloat)threshold{
     if ((self = [super init])) {
-      _count = count;
-      _colors = @[];
-      _scaledImage = [UIImage imageWithImage:image scaledToSize:CGSizeMake(TDIMAGECOLORS_SCALED_SIZE,
+        NSDate *beginDate = [NSDate date];
+        
+        _count = count;
+        _colors = @[];
+        _scaledImage = [UIImage imageWithImage:image scaledToSize:CGSizeMake(TDIMAGECOLORS_SCALED_SIZE,
                                                                            TDIMAGECOLORS_SCALED_SIZE)];
-      _threshold = threshold;
-      [self detectColorsFromImage:_scaledImage];
+        _threshold = threshold;
+        [self detectColorsFromImage:_scaledImage];
+        
+        NSLog(@"#DEBUG time ellapsed %.2f", [beginDate timeIntervalSinceNow]);
     }
     return self;
 }

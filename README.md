@@ -2,6 +2,8 @@ TDImageColors
 =============
 iOS Library used to detect a number of most used colors in a UIImage.
 
+![TDImageColors](/demo.gif)
+
 ## Installation
 ### Using CocoaPods
 `pod 'TDImageColors', '~> 0.2'`

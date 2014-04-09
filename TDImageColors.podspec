@@ -1,15 +1,15 @@
 Pod::Spec.new do |s|
-  s.name    = 'TDImageColors'
-  s.version = '0.2'
+  s.name    = 'TDImageColors@betzerra'
+  s.version = '0.3'
   s.license = { :type => 'MIT', :file => 'LICENSE' }
-  s.summary = 'iOS Library used to detect a number of most used colors in a UIImage.'
-  s.homepage = 'http://github.com/timominous/TDImageColors'
+  s.summary = 'iOS Library used to detect a number of most used colors in a UIImage. Fork from timominous project.'
+  s.homepage = 'http://www.betzerra.com.ar'
   s.authors = {
-    'timominous' => 'timominous@gmail.com'
+    'betzerra' => 'ezequiel@betzerra.com.ar'
   }
 
   s.source = {
-    :git => 'https://github.com/timominous/TDImageColors.git',
+    :git => 'https://github.com/betzerra/TDImageColors',
     :tag => "#{s.version}"
   }
   s.platform = :ios, '6.0'

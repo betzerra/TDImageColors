@@ -63,7 +63,7 @@ typedef struct RGBAPixel
     for (NSUInteger x = 0; x < width; x++) {
         for (NSUInteger y = 0; y < height; y++) {
             
-            int byteIndex = (bytesPerRow * y) + (x * bytesPerPixel);
+            NSUInteger byteIndex = (bytesPerRow * y) + (x * bytesPerPixel);
             
             CGFloat red = (rawData[byteIndex] * 1.f) / 255.f;
             CGFloat green = (rawData[byteIndex + 1] * 1.f) / 255.f;
@@ -171,10 +171,10 @@ typedef struct RGBAPixel
 }
 
 - (NSString *)description{
-    float red = 0;
-    float green = 0;
-    float blue = 0;
-    float alpha = 0;
+    CGFloat red = 0;
+    CGFloat green = 0;
+    CGFloat blue = 0;
+    CGFloat alpha = 0;
     
     [self.color getRed:&red green:&green blue:&blue alpha:&alpha];
     

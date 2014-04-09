@@ -30,7 +30,7 @@
   CGContextRelease(context);
   
   // rawDara now contains the image data in RGBA8888
-  int byteIndex = (bytesPerRow * y) + (x * bytesPerPixel);
+  NSInteger byteIndex = (bytesPerRow * y) + (x * bytesPerPixel);
   
   CGFloat red = (rawData[byteIndex] * 1.f);
   CGFloat green = (rawData[byteIndex + 1] * 1.f);
@@ -59,7 +59,7 @@
   CGContextRelease(context);
   
   // rawDara now contains the image data in RGBA8888
-  int byteIndex = (bytesPerRow * y) + (x * bytesPerPixel);
+  NSInteger byteIndex = (bytesPerRow * y) + (x * bytesPerPixel);
   
   CGFloat red = (rawData[byteIndex] * 1.f) / 255.f;
   CGFloat green = (rawData[byteIndex + 1] * 1.f) / 255.f;

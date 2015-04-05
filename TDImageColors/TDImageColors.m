@@ -19,15 +19,6 @@ typedef struct RGBAPixel
     
 } RGBAPixel;
 
-@interface TDCountedColor : NSObject
-
-@property (assign) NSUInteger count;
-@property (strong) UIColor *color;
-
-- (id)initWithColor:(UIColor *)color count:(NSUInteger)count;
-
-@end
-
 @interface TDImageColors ()
 
 @end
@@ -112,10 +103,10 @@ typedef struct RGBAPixel
     NSCountedSet *imageColors = [self allColorsFromUIImage:image];
   
     NSEnumerator *enumerator = [imageColors objectEnumerator];
-    UIColor *curColor = nil;
     NSMutableArray *sortedColors = [NSMutableArray arrayWithCapacity:imageColors.count];
     NSMutableArray *resultColors = [NSMutableArray array];
 
+    UIColor *curColor = nil;
     while ((curColor = [enumerator nextObject]) != nil) {
         curColor = [curColor colorWithMinimumSaturation:0.15f];
         NSUInteger colorCount = [imageColors countForObject:curColor];
@@ -125,11 +116,10 @@ typedef struct RGBAPixel
     [sortedColors sortUsingSelector:@selector(compare:)];
 
     for (TDCountedColor *countedColor in sortedColors) {
-        curColor = countedColor.color;
         BOOL continueFlag = NO;
         
-        for (UIColor *c in resultColors) {
-            if (![curColor isDistinct:c threshold:_threshold]) {
+        for (TDCountedColor *c in resultColors) {
+            if (![countedColor.color isDistinct:c.color threshold:_threshold]) {
                 continueFlag = YES;
                 break;
             }
@@ -138,7 +128,7 @@ typedef struct RGBAPixel
         if (continueFlag)
             continue;
         if (resultColors.count < _count){
-            [resultColors addObject:curColor];
+            [resultColors addObject:countedColor];
         }else{
             break;
         }
@@ -148,45 +138,9 @@ typedef struct RGBAPixel
     return retVal;
 }
 
-@end
-
-@implementation TDCountedColor
-
-- (id)initWithColor:(UIColor *)color count:(NSUInteger)count {
-	if ((self = [super init])) {
-		self.color = color;
-		self.count = count;
-	}
-	return self;
-}
-
-- (NSComparisonResult)compare:(TDCountedColor *)object {
-	if ([object isKindOfClass:[TDCountedColor class]]) {
-		if (self.count < object.count)
-			return NSOrderedDescending;
-		else if (self.count == object.count)
-			return NSOrderedSame;
-	}
-	return NSOrderedAscending;
-}
-
-- (NSString *)description{
-    CGFloat red = 0;
-    CGFloat green = 0;
-    CGFloat blue = 0;
-    CGFloat alpha = 0;
-    
-    [self.color getRed:&red green:&green blue:&blue alpha:&alpha];
-    
-    NSString *retVal = [NSString stringWithFormat:@"%@ R:%.0f G:%.0f B:%.0f A:%.0f (count %d)",
-                                                                                [super description],
-                                                                                red * 255,
-                                                                                green * 255,
-                                                                                blue * 255,
-                                                                                alpha * 255,
-                                                                                self.count];
+- (NSString *)description {
+    NSString *retVal = [NSString stringWithFormat:@"%@ - %@", [super description], _colors];
     return retVal;
 }
-
 
 @end

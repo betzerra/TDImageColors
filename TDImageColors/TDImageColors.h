@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TDCountedColor.h"
 #import "UIImage+TDAdditions.h"
 #import "UIColor+TDAdditions.h"
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6757CBEF1AD1C8000084A429 /* TDCountedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6757CBEE1AD1C8000084A429 /* TDCountedColor.m */; };
 		67B188F718F1E68800746E98 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67B188F618F1E68800746E98 /* Storyboard.storyboard */; };
 		67B1890018F1E95900746E98 /* PaletteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67B188FD18F1E95900746E98 /* PaletteViewController.m */; };
 		67B1890118F1E95900746E98 /* TDDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67B188FF18F1E95900746E98 /* TDDemoViewController.m */; };
@@ -44,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6757CBED1AD1C8000084A429 /* TDCountedColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDCountedColor.h; sourceTree = "<group>"; };
+		6757CBEE1AD1C8000084A429 /* TDCountedColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDCountedColor.m; sourceTree = "<group>"; };
 		67B188F618F1E68800746E98 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		67B188FC18F1E95900746E98 /* PaletteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaletteViewController.h; sourceTree = "<group>"; };
 		67B188FD18F1E95900746E98 /* PaletteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaletteViewController.m; sourceTree = "<group>"; };
@@ -205,6 +208,8 @@
 		90B48AB7184351A200F7C76F /* TDImageColors */ = {
 			isa = PBXGroup;
 			children = (
+				6757CBED1AD1C8000084A429 /* TDCountedColor.h */,
+				6757CBEE1AD1C8000084A429 /* TDCountedColor.m */,
 				90B48AB8184351A200F7C76F /* TDImageColors.h */,
 				90B48AB9184351A200F7C76F /* TDImageColors.m */,
 				90B48ABA184351A200F7C76F /* UIColor+TDAdditions.h */,
@@ -323,6 +328,7 @@
 				904BA557183F0A6400F72300 /* TDAppDelegate.m in Sources */,
 				90B48AC0184351A200F7C76F /* UIImage+TDAdditions.m in Sources */,
 				904BA553183F0A6400F72300 /* main.m in Sources */,
+				6757CBEF1AD1C8000084A429 /* TDCountedColor.m in Sources */,
 				90B48ABE184351A200F7C76F /* TDImageColors.m in Sources */,
 				67B1890118F1E95900746E98 /* TDDemoViewController.m in Sources */,
 				90B48ABF184351A200F7C76F /* UIColor+TDAdditions.m in Sources */,

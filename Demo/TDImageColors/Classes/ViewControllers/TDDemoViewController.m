@@ -56,25 +56,25 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     [self dismissViewControllerAnimated:YES completion:^{
-        dispatch_group_t group = dispatch_group_create();
         
-        dispatch_group_enter(group);
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
         self.imageView.image = image;
         TDImageColors *imageColors = [[TDImageColors alloc] initWithImage:image count:64 threshold:0.25f];
-        dispatch_group_leave(group);
+        NSLog(@"#DEBUG %@", imageColors);
         
-        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-            NSInteger i=0;
-            while (i < 5 && i < [imageColors.colors count]){
-                UIColor *color = imageColors.colors[i];
+        NSInteger i=0;
+        NSMutableArray *tmp = [[NSMutableArray alloc] init];
+        
+        for (TDCountedColor *color in imageColors.colors) {
+            if (i < 5) {
                 NSUInteger idx = [imageColors.colors indexOfObject:color];
-                [_colorViews[idx] setBackgroundColor:color];
-                i++;
+                [_colorViews[idx] setBackgroundColor:color.color];
             }
             
-            _colors = [imageColors.colors sortedArrayUsingSelector:@selector(hubComparisson:)];
-        });
+            [tmp addObject:color.color];
+            i++;
+        }
+        _colors = [tmp sortedArrayUsingSelector:@selector(hubComparisson:)];
     }];
 }
 
